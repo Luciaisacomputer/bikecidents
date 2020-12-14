@@ -1,18 +1,50 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <incident-list
+      v-if="!isLoading"
+      :incidents="computedIncidents"
+    >
+      <template slot-scope="incident">
+        <div>
+          {{incident.title}}
+        </div>
+      </template>
+    </incident-list>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import IncidentList from '@/components/IncidentList.vue';
+import ServicesFactory from '@/services/ServicesFactory';
+
+const Incidents = ServicesFactory.get('incidents');
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld,
+    IncidentList,
+  },
+  data() {
+    return {
+      isLoading: false,
+      incidents: [],
+    };
+  },
+  created() {
+    this.fetch();
+  },
+  methods: {
+    async fetch() {
+      this.isLoading = true;
+      const { data } = await Incidents.get();
+      this.isLoading = false;
+      this.incidents = data.incidents;
+    },
+  },
+  computed: {
+    computedIncidents() {
+      return this.incidents.slice(0, 10);
+    },
   },
 };
 </script>

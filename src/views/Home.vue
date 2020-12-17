@@ -4,11 +4,6 @@
       v-if="!isLoading"
       :incidents="computedIncidents"
     >
-      <template slot-scope="incident">
-        <div>
-          {{incident.title}}
-        </div>
-      </template>
     </incident-list>
   </div>
 </template>

@@ -1,18 +1,23 @@
 <template>
-  <div>
+  <div class="bi-incident-list">
     <div
       v-for="incident in incidents"
-      v-bind="{incident}"
       :key="incident.id"
     >
-      <slot v-bind="incident"></slot>
+    <incident :incident="incident" name=""></incident>
     </div>
   </div>
 </template>
 
 <script>
+
+import Incident from '@/components/Incident.vue';
+
 export default {
   name: 'incident-list',
+  components: {
+    Incident,
+  },
   props: {
     incidents: {
       type: Array,
@@ -21,3 +26,7 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "../styles/components/IncidentList.scss";
+</style>
